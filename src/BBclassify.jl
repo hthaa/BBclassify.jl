@@ -5,12 +5,23 @@ Pkg.add("QuadGK")
 Pkg.add("CSV")
 Pkg.add("DataFrames")
 Pkg.add("LinearAlgebra")
+Pkg.add("PkgTemplates")
 using QuadGK
 using CSV
 using DataFrames
 using LinearAlgebra
 using Statistics
+using PkgTemplates
 
+t = Template(;
+           user="your-GitHub-username",
+           authors=["your-name"],
+           plugins=[
+               License(name="MIT"),
+               Git(),
+               GitHubActions(),
+           ],
+       )
 
 # Cronbachs Alpha reliability coefficient
 function cba(x)
@@ -245,12 +256,3 @@ function cac(x, reliability, minimum, maximum, cut, model = 4, lower = 0, upper 
     out
 end
 
-# Example run with sum-scores.
-cac(sumscores, cba(rawscores), 0, 20, [8, 12], 4, 0, 1, true, "ll") #Livingston and Lewis approach
-cac(sumscores, cba(rawscores), 0, 20, [8, 12], 4, 0, 1, true, "hb") #Hanson and Brennan approach
-
-# Example run with mean-scores (only works for Livingston and Lewis approach).
-cac(meanscores, cba(rawscores), 0, 1, [.4, .6], 4, 0, 1, true, "ll") #
-
-
-end
